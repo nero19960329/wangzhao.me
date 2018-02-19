@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Wang Zhao&#39;s blog</title>
+    <link>http://www.wangzhao.me/</link>
+    <description>Recent content on Wang Zhao&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 19 Feb 2018 10:02:42 +0800</lastBuildDate>
+    
+	<atom:link href="http://www.wangzhao.me/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hello World</title>
+      <link>http://www.wangzhao.me/2018/02/hello-world/</link>
+      <pubDate>Mon, 19 Feb 2018 10:02:42 +0800</pubDate>
+      
+      <guid>http://www.wangzhao.me/2018/02/hello-world/</guid>
+      <description>之前个人网站的服务器崩了，而且我没做备份所以以前的博文也都随风而去了w。这次吸取教训换用 hugo 直接生成静态网站，就可以对博文做版本控制了。
+文章我一般随想随写，以后可能会开一些坑，希望能够坚持积累下去吧w</description>
+    </item>
+    
+  </channel>
+</rss>

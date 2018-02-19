@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>http://www.wangzhao.me/2018/02/hello-world/</loc>
+    <lastmod>2018-02-19T10:02:42+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.wangzhao.me/archives/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.wangzhao.me/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.wangzhao.me/categories/others/</loc>
+    <lastmod>2018-02-19T10:02:42+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.wangzhao.me/post/</loc>
+    <lastmod>2018-02-19T10:02:42+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.wangzhao.me/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.wangzhao.me/</loc>
+    <lastmod>2018-02-19T10:02:42+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.wangzhao.me/tags/%E9%97%B2%E8%B0%88/</loc>
+    <lastmod>2018-02-19T10:02:42+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+</urlset>

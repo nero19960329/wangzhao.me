@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Wang Zhao&#39;s blog</title>
-    <link>http://www.wangzhao.me/post/</link>
-    <description>Recent content in Posts on Wang Zhao&#39;s blog</description>
+    <title>Notes on Wang Zhao&#39;s blog</title>
+    <link>http://www.wangzhao.me/categories/notes/</link>
+    <description>Recent content in Notes on Wang Zhao&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 27 Feb 2018 16:40:37 +0800</lastBuildDate>
     
-	<atom:link href="http://www.wangzhao.me/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://www.wangzhao.me/categories/notes/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -20,16 +20,6 @@
       <description>&lt;p&gt;这学期有幸选到了贵系邓俊辉老师的《计算几何》，这学期会随着课程进度更新一些笔记。&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Hello World</title>
-      <link>http://www.wangzhao.me/2018/02/hello-world/</link>
-      <pubDate>Mon, 19 Feb 2018 10:02:42 +0800</pubDate>
-      
-      <guid>http://www.wangzhao.me/2018/02/hello-world/</guid>
-      <description>之前个人网站的服务器崩了，而且我没做备份所以以前的博文也都随风而去了w。这次吸取教训换用 hugo 直接生成静态网站，就可以对博文做版本控制了。
-文章我一般随想随写，以后可能会开一些坑，希望能够坚持积累下去吧w</description>
     </item>
     
   </channel>

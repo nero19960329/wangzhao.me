@@ -73,7 +73,7 @@ googleAnalytics = "UA-114388506-1"
 	bio = "Student @ Tsinghua University"
 	job = "Student @ Tsinghua University"
 	location = "Beijing"
-	picture = "author.jpg"
+	picture = "https://s1.ax1x.com/2018/02/25/9dmmKU.jpg"
 
 [params]
 	clearReading = true
@@ -88,6 +88,7 @@ googleAnalytics = "UA-114388506-1"
 	imageGallery = true
 	hierarchicalCategories = true
 	syntaxHighlighter = 'highlight.js'
+	favicon = "img/favicon.png"
 
 	[[params.sharingOptions]]
 		name = "Facebook"

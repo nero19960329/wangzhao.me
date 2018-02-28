@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://www.wangzhao.me/2018/02/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%851/</loc>
+    <lastmod>2018-02-27T16:40:37+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://www.wangzhao.me/2018/02/hello-world/</loc>
     <lastmod>2018-02-19T10:02:42+08:00</lastmod>
   </url>
@@ -18,6 +23,12 @@
   </url>
   
   <url>
+    <loc>http://www.wangzhao.me/categories/notes/</loc>
+    <lastmod>2018-02-27T16:40:37+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://www.wangzhao.me/categories/others/</loc>
     <lastmod>2018-02-19T10:02:42+08:00</lastmod>
     <priority>0</priority>
@@ -25,7 +36,7 @@
   
   <url>
     <loc>http://www.wangzhao.me/post/</loc>
-    <lastmod>2018-02-19T10:02:42+08:00</lastmod>
+    <lastmod>2018-02-27T16:40:37+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -36,7 +47,13 @@
   
   <url>
     <loc>http://www.wangzhao.me/</loc>
-    <lastmod>2018-02-19T10:02:42+08:00</lastmod>
+    <lastmod>2018-02-27T16:40:37+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.wangzhao.me/tags/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/</loc>
+    <lastmod>2018-02-27T16:40:37+08:00</lastmod>
     <priority>0</priority>
   </url>
   

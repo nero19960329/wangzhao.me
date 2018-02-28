@@ -8,7 +8,7 @@ tags:
 - 闲谈
 disqusIdentifier: fds3F4fs12
 comments: true
-thumbnailImage: https://d1q6f0aelx0por.cloudfront.net/product-logos/5431a80b-9ab9-486c-906a-e3d4b5ccaa96-hello-world.png
+thumbnailImage: https://s1.ax1x.com/2018/02/25/9dmnrF.png
 coverMeta: out
 metaAlignment: center
 ---

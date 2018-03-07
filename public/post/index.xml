@@ -6,10 +6,21 @@
     <description>Recent content in Posts on Wang Zhao&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 27 Feb 2018 16:40:37 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 06 Mar 2018 18:07:42 +0800</lastBuildDate>
     
 	<atom:link href="http://www.wangzhao.me/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>计算几何 —— 凸包（2）</title>
+      <link>http://www.wangzhao.me/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%852/</link>
+      <pubDate>Tue, 06 Mar 2018 18:07:42 +0800</pubDate>
+      
+      <guid>http://www.wangzhao.me/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%852/</guid>
+      <description>&lt;p&gt;先来说两个简单的计算几何小问题：&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>计算几何 —— 凸包（1）</title>

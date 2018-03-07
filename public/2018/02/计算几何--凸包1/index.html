@@ -297,7 +297,7 @@ ga('send', 'pageview');
 
 <p><strong>所以就可以遍历点集中的所有三角形，将其覆盖的所有点设置为非极点。通过排除所有的非极点就可以得到点集中的所有极点。</strong>该算法的时间复杂度是 <span  class="math">\(O(C_{n}^{3}\cdot n)=O(n^4)\)</span> 的。</p>
 
-<p>那么如何判断点是否在三角形内呢？当然，可以使用射线法或累计角度法判定，但未免有些「杀鸡用牛刀」的意味。考虑边按逆时针排列的三角形，对于这三条有向边，若某点处于它们的左侧，则该点被该三角形覆盖，如下图。</p>
+<p>那么如何判断点是否在三角形内呢？当然，可以使用射线法或累计角度法判定，但未免有些「杀鸡用牛刀」的意味。考虑边按逆时针排列的三角形，对于这三条有向边，若某点处于它们的左侧（toLeft 判断），则该点被该三角形覆盖，如下图。</p>
 
 <p><center><figure><img src="https://s1.ax1x.com/2018/02/27/9BJ06e.png" alt="convex-hull-in-triangle"></figure></center></p>
 
@@ -336,7 +336,7 @@ ga('send', 'pageview');
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%852/" data-tooltip="计算几何 —— 凸包（2）">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -422,7 +422,7 @@ ga('send', 'pageview');
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%852/" data-tooltip="计算几何 —— 凸包（2）">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -563,6 +563,25 @@ ga('send', 'pageview');
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="http://www.wangzhao.me/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%852/">
+                <h3 class="media-heading">计算几何 —— 凸包（2）</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>先来说两个简单的计算几何小问题：</p>
+
+<p></p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="http://www.wangzhao.me/2018/02/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%851/">
                 <h3 class="media-heading">计算几何 —— 凸包（1）</h3>
               </a>
@@ -604,7 +623,7 @@ ga('send', 'pageview');
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         2 posts found
+         3 posts found
       </p>
     </div>
   </div>

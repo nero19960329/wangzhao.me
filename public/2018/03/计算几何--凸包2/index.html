@@ -20,26 +20,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.36.1 with theme Tranquilpeak 0.4.3-BETA">
-    <title>Hello World</title>
+    <title>计算几何 —— 凸包（2）</title>
     <meta name="author" content="Wang Zhao">
-    <meta name="keywords" content="">
+    <meta name="keywords" content="计算几何, 凸包, computational geometry, convex hull">
 
     <link rel="icon" href="img/favicon.png">
     
 
     
-    <meta name="description" content="之前个人网站的服务器崩了，而且我没做备份所以以前的博文也都随风而去了w。这次吸取教训换用 hugo 直接生成静态网站，就可以对博文做版本控制了。
-文章我一般随想随写，以后可能会开一些坑，希望能够坚持积累下去吧w">
-    <meta property="og:description" content="之前个人网站的服务器崩了，而且我没做备份所以以前的博文也都随风而去了w。这次吸取教训换用 hugo 直接生成静态网站，就可以对博文做版本控制了。
-文章我一般随想随写，以后可能会开一些坑，希望能够坚持积累下去吧w">
+    <meta name="description" content="先来说两个简单的计算几何小问题：
+
+">
+    <meta property="og:description" content="先来说两个简单的计算几何小问题：
+
+">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Hello World">
-    <meta property="og:url" content="/2018/02/hello-world/">
+    <meta property="og:title" content="计算几何 —— 凸包（2）">
+    <meta property="og:url" content="/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%852/">
     <meta property="og:site_name" content="Wang Zhao&#39;s blog">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Wang Zhao&#39;s blog">
-    <meta name="twitter:description" content="之前个人网站的服务器崩了，而且我没做备份所以以前的博文也都随风而去了w。这次吸取教训换用 hugo 直接生成静态网站，就可以对博文做版本控制了。
-文章我一般随想随写，以后可能会开一些坑，希望能够坚持积累下去吧w">
+    <meta name="twitter:description" content="先来说两个简单的计算几何小问题：
+
+">
     
     
 
@@ -51,7 +54,7 @@
     
 
     
-      <meta property="og:image" content="https://s1.ax1x.com/2018/02/25/9dmnrF.png">
+      <meta property="og:image" content="https://s1.ax1x.com/2018/02/27/9BKsj1.png">
     
     
     
@@ -224,19 +227,19 @@ ga('send', 'pageview');
             <div class="post-header main-content-wrap text-center">
   
     <h1 class="post-title" itemprop="headline">
-      Hello World
+      计算几何 —— 凸包（2）
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2018-02-19T10:02:42&#43;08:00">
+      <time itemprop="datePublished" datetime="2018-03-06T18:07:42&#43;08:00">
         
   
   
   
   
-    2018年2月19日
+    2018年3月6日
   
 
       </time>
@@ -246,7 +249,7 @@ ga('send', 'pageview');
   
     <span>发布在</span>
     
-      <a class="category-link" href="/categories/others">others</a>
+      <a class="category-link" href="/categories/notes">notes</a>
     
   
 
@@ -256,10 +259,120 @@ ga('send', 'pageview');
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <p>之前个人网站的服务器崩了，而且我没做备份所以以前的博文也都随风而去了w。这次吸取教训换用 hugo 直接生成静态网站，就可以对博文做版本控制了。</p>
+              <p>先来说两个简单的计算几何小问题：</p>
 
-<p>文章我一般随想随写，以后可能会开一些坑，希望能够坚持积累下去吧w</p>
+<p></p>
 
+<blockquote>
+<p>给定两个二维线段，判定它们是否相交？</p>
+</blockquote>
+
+<p>当然最笨的办法就是求出两个线段方程，判断解是否满足要求。但这会引入除法操作，这不是我们希望的结果。</p>
+
+<p><center><figure><img src="https://s1.ax1x.com/2018/03/06/9gQJxK.gif" alt="line-line"></figure></center></p>
+
+<p>如上图，考虑 <span  class="math">\(P_{3}, P_{4}\)</span> 是否在线段 <span  class="math">\(a\)</span> 的异侧（toLeft 返回值不同则表示在异侧）。当然只做这一次异侧判断是不行的，对称地考虑 <span  class="math">\(P_{1}, P_{2}\)</span> 是否在线段 <span  class="math">\(b\)</span> 的异侧。如果两次异侧判断都成功，则说明两个线段相交。这种方法只需要进行 <span  class="math">\(4\)</span> 次 toLeft 判断，提高了效率。</p>
+
+<blockquote>
+<p>用极点法求出若干极点后，如何将其排成环？</p>
+</blockquote>
+
+<p>假设 leftmost-then-lowest 的极点为 <span  class="math">\(P_0\)</span>，定义 <span  class="math">\(P_{1} < P_{2} \Leftrightarrow toLeft(P_{0}P_{1}, P_{2})==false\)</span>。按照上述定义的偏序关系就可以对所有极点排序，排序后从小到大即可。</p>
+
+<p>从上面两道小题能够看出 toLeft 判定的重要性，这个判定函数将会贯穿计算几何的学习历程。</p>
+
+<h1 id="极边法extreme-edges">极边法（Extreme Edges）</h1>
+
+<hr>
+
+<p>从极点法我们可以自然而然地想到，如果遍历点集中所有可能成为凸包边界（极边）的线段，也能达到求解凸包的目的。事实上，我们也只需要对点集中每两个点相连的线段判断其余点是否都处于它的一侧即可。</p>
+
+<p>所以极边法的时间复杂度相对极点法要低一些，遍历所有线段（<span  class="math">\(C_{n}^{2}=O(n^2)\)</span>）<span  class="math">\(\times\)</span> <span  class="math">\(O(n)\)</span> 个 toLeft 判断 <span  class="math">\(=O(n^3)\)</span> 的复杂度，虽然好一些但还不够。</p>
+
+<h1 id="增量法incremental-construction">增量法（Incremental Construction）</h1>
+
+<hr>
+
+<p>顾名思义，增量法的主要思路就是遍历点集中的所有点，每次都更新当前已遍历点集的凸包，最后得到对于所有点的凸包。</p>
+
+<p><center><figure><img src="https://s1.ax1x.com/2018/03/06/9gJsRs.png" alt="incremental-construction-1"></figure></center></p>
+
+<p>如上图，在添加新点时会发生三种情况：</p>
+
+<ul>
+<li>该点作为新凸包上的点，且不影响原凸包上的点；</li>
+<li>该点在目前凸多边形的内部；</li>
+<li>该点作为新凸包上的点，并删除一些原凸包上的点。</li>
+</ul>
+
+<p>那么怎么判断新加入的点属于上面哪种情况呢？我们一点一点看，先来判断新点是否属于原凸包内，也即判断点是否属于凸多边形的内部。</p>
+
+<p><strong>线性解法</strong> —— 逆时针遍历凸多边形的所有边，执行 toLeft 判定。优势是可以应用于链表等动态内存结构，劣势是慢；</p>
+
+<p><strong>二分查找</strong> —— 二分地判定点是否属于两条射线张成的区域之内，如下图。优势是快，劣势是只能应用于数组等静态内存结构。</p>
+
+<p><center><figure><img src="https://s1.ax1x.com/2018/03/06/9g8W60.png" alt="point-in-convex-polygon"></figure></center></p>
+
+<p>在增量法中，由于我们需要保证能够在常数时间内删除点，所以需要采用链表等结构，那么还是需要使用线性解法。</p>
+
+<p>那么怎么应对刚刚说的第三种情况呢？我们将原凸包分成四部分：</p>
+
+<p><center><figure><img src="https://s1.ax1x.com/2018/03/06/9gJdZ8.png" alt="incremental-construction-2"></figure></center></p>
+
+<ul>
+<li>上、下切点（<span  class="math">\(t,s\)</span>）；</li>
+<li><span  class="math">\(ts\)</span> 段，需要被删除的部分；</li>
+<li><span  class="math">\(st\)</span> 段，需要保留的部分。</li>
+</ul>
+
+<p><center><figure><img src="https://s1.ax1x.com/2018/03/06/9gJIJJ.png" alt="incremental-construction-3"></figure></center></p>
+
+<p>那么怎么判断点属于哪种类别呢？如上图，</p>
+
+<ul>
+<li>若 <span  class="math">\(v\)</span> 的两个邻域点都分布在 <span  class="math">\(xv\)</span> 的左侧，则 <span  class="math">\(v\)</span> 是下切点；</li>
+<li>若 <span  class="math">\(v\)</span> 的两个邻域点都分布在 <span  class="math">\(xv\)</span> 的右侧，则 <span  class="math">\(v\)</span> 是上切点；</li>
+<li>若 <span  class="math">\(v\)</span> 的两个邻域点（逆时针上、逆时针下）分布在 <span  class="math">\(xv\)</span> 的左右侧，则 <span  class="math">\(v\)</span> 属于 <span  class="math">\(ts\)</span> 段；</li>
+<li>若 <span  class="math">\(v\)</span> 的两个邻域点（逆时针上、逆时针下）分布在 <span  class="math">\(xv\)</span> 的右左侧，则 <span  class="math">\(v\)</span> 属于 <span  class="math">\(st\)</span> 段；</li>
+</ul>
+
+<p>幸运的是，可以用类似的方法判断点是否在凸多边形内，也即判断其余点是否都属于 <span  class="math">\(st\)</span> 段。</p>
+
+<h1 id="jarvis-march">Jarvis March</h1>
+
+<hr>
+
+<p>该算法的大致思想是逐条选出极边并加入到凸包中，如下图。</p>
+
+<p><center><figure><img src="https://s1.ax1x.com/2018/03/07/9gymfx.png" alt="jarvis-march-1"></figure></center></p>
+
+<p>如下图，在算法运行中，怎样选取下个点，使得它与当前点 <span  class="math">\(k\)</span> 组成的边是下一条极边（<span  class="math">\(ks\)</span>）呢？</p>
+
+<p><center><figure><img src="https://s1.ax1x.com/2018/03/07/9gya1f.png" alt="jarvis-march-2"></figure></center></p>
+
+<p>对于极点 <span  class="math">\(k\)</span>，只要找到点 <span  class="math">\(s\)</span> ，使得 <span  class="math">\(ks\)</span> 的右侧没有任何其他点。与本文一开始提出的第二个小问题类似，以 toLeft 测试为比较函数，找出其余点中最大的那个即可。</p>
+
+<p>不失一般性，第一个极点 <span  class="math">\(o\)</span> 可以按照 lowest-than-leftmost 的规则选取。</p>
+
+<h1 id="凸包算法的下界">凸包算法的下界</h1>
+
+<hr>
+
+<p>使用归约法（reduction）说明。关于归约法，维基百科有如下说明：</p>
+
+<blockquote>
+<p>以直觉观之，如果存在能有效解决问题 B 的算法，也可以作为解决问题 A 的子程序，则将问题 A 称为“可归约”到问题 B，因此求解 A 并不会比求解 B 更困难。</p>
+</blockquote>
+
+<p><center><figure><img src="https://s1.ax1x.com/2018/03/07/9g6QCq.png" alt="lower-bound-1"></figure></center></p>
+
+<p>上图表示了一个线性归约，如果对于问题 A 的<strong>任意</strong>输入都可以在线性时间内转换为<strong>某个</strong> B 的输入，且对于问题 B 的输出都可以在线性时间内转换为 A 的输出，那么称问题 A 可以线性归约至问题 B。且问题 A 的下界也是问题 B 的下界。</p>
+
+<p><center><figure><img src="https://s1.ax1x.com/2018/03/07/9g6xzV.png" alt="lower-bound-2"></figure></center></p>
+
+<p>考虑基于比较的排序问题，对于一维上的所有输入，可以在线性时间内投影到抛物线 <span  class="math">\(y=x^2\)</span> 上。而投影过后的点集的凸包投影回一维上就是排序后的结果。则基于比较的排序问题可以线性归约为二维凸包问题，那么二维凸包问题的下界就是 <span  class="math">\(O(n\log(n))\)</span>。</p>
+
+<p>下次将介绍几个 <span  class="math">\(O(n\log(n))\)</span> 的凸包算法。</p>
               
             </div>
           </div>
@@ -271,7 +384,7 @@ ga('send', 'pageview');
                   <div class="post-footer-tags">
                     <span class="text-color-light text-small">标签</span><br/>
                     
-  <a class="tag tag--primary tag--small" href="/tags/%E9%97%B2%E8%B0%88/">闲谈</a>
+  <a class="tag tag--primary tag--small" href="/tags/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/">计算几何</a>
 
                   </div>
                 
@@ -284,7 +397,7 @@ ga('send', 'pageview');
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%851/" data-tooltip="计算几何 —— 凸包（1）">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -292,7 +405,7 @@ ga('send', 'pageview');
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%851/" data-tooltip="计算几何 —— 凸包（1）">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -310,19 +423,19 @@ ga('send', 'pageview');
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://www.wangzhao.me/2018/02/hello-world/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://www.wangzhao.me/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%852/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://www.wangzhao.me/2018/02/hello-world/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://www.wangzhao.me/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%852/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://www.wangzhao.me/2018/02/hello-world/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://www.wangzhao.me/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%852/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -370,7 +483,7 @@ ga('send', 'pageview');
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%851/" data-tooltip="计算几何 —— 凸包（1）">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -378,7 +491,7 @@ ga('send', 'pageview');
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%851/" data-tooltip="计算几何 —— 凸包（1）">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -396,19 +509,19 @@ ga('send', 'pageview');
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://www.wangzhao.me/2018/02/hello-world/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://www.wangzhao.me/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%852/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://www.wangzhao.me/2018/02/hello-world/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://www.wangzhao.me/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%852/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://www.wangzhao.me/2018/02/hello-world/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://www.wangzhao.me/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%852/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -438,19 +551,19 @@ ga('send', 'pageview');
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.wangzhao.me%2F2018%2F02%2Fhello-world%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.wangzhao.me%2F2018%2F03%2F%25E8%25AE%25A1%25E7%25AE%2597%25E5%2587%25A0%25E4%25BD%2595--%25E5%2587%25B8%25E5%258C%25852%2F">
           <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fwww.wangzhao.me%2F2018%2F02%2Fhello-world%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fwww.wangzhao.me%2F2018%2F03%2F%25E8%25AE%25A1%25E7%25AE%2597%25E5%2587%25A0%25E4%25BD%2595--%25E5%2587%25B8%25E5%258C%25852%2F">
           <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fwww.wangzhao.me%2F2018%2F02%2Fhello-world%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fwww.wangzhao.me%2F2018%2F03%2F%25E8%25AE%25A1%25E7%25AE%2597%25E5%2587%25A0%25E4%25BD%2595--%25E5%2587%25B8%25E5%258C%25852%2F">
           <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
         </a>
       </li>
@@ -613,9 +726,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'http:\/\/www.wangzhao.me\/2018\/02\/hello-world\/';
+          this.page.url = 'http:\/\/www.wangzhao.me\/2018\/03\/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%852\/';
           
-            this.page.identifier = 'fds3F4fs12';
+            this.page.identifier = '\/2018\/03\/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%852\/'
           
         };
         (function() {

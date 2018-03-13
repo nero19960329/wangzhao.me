@@ -20,7 +20,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.36.1 with theme Tranquilpeak 0.4.3-BETA">
-    <title>计算几何 —— 凸包（1）</title>
+    <title>计算几何 —— 凸包（3）</title>
     <meta name="author" content="Wang Zhao">
     <meta name="keywords" content="计算几何, 凸包, computational geometry, convex hull">
 
@@ -28,19 +28,19 @@
     
 
     
-    <meta name="description" content="这学期有幸选到了贵系邓俊辉老师的《计算几何》，这学期会随着课程进度更新一些笔记。
+    <meta name="description" content="这次继续介绍几个凸包算法，包括 Graham scan、分治法，以及快速凸包算法。
 
 ">
-    <meta property="og:description" content="这学期有幸选到了贵系邓俊辉老师的《计算几何》，这学期会随着课程进度更新一些笔记。
+    <meta property="og:description" content="这次继续介绍几个凸包算法，包括 Graham scan、分治法，以及快速凸包算法。
 
 ">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="计算几何 —— 凸包（1）">
-    <meta property="og:url" content="/2018/02/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%851/">
+    <meta property="og:title" content="计算几何 —— 凸包（3）">
+    <meta property="og:url" content="/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%853/">
     <meta property="og:site_name" content="Wang Zhao&#39;s blog">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Wang Zhao&#39;s blog">
-    <meta name="twitter:description" content="这学期有幸选到了贵系邓俊辉老师的《计算几何》，这学期会随着课程进度更新一些笔记。
+    <meta name="twitter:description" content="这次继续介绍几个凸包算法，包括 Graham scan、分治法，以及快速凸包算法。
 
 ">
     
@@ -227,19 +227,19 @@ ga('send', 'pageview');
             <div class="post-header main-content-wrap text-center">
   
     <h1 class="post-title" itemprop="headline">
-      计算几何 —— 凸包（1）
+      计算几何 —— 凸包（3）
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2018-02-27T16:40:37&#43;08:00">
+      <time itemprop="datePublished" datetime="2018-03-13T18:45:03&#43;08:00">
         
   
   
   
   
-    2018年2月27日
+    2018年3月13日
   
 
       </time>
@@ -259,59 +259,129 @@ ga('send', 'pageview');
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <p>这学期有幸选到了贵系邓俊辉老师的《计算几何》，这学期会随着课程进度更新一些笔记。</p>
+              <p>这次继续介绍几个凸包算法，包括 Graham scan、分治法，以及快速凸包算法。</p>
 
 <p></p>
 
-<h1 id="凸包">凸包</h1>
+<h1 id="graham-scan">Graham scan</h1>
 
 <hr>
 
-<p>用邓老师的话来说，所谓凸包就是</p>
+<p>Graham scan 是一个表达起来很简洁的算法，而且也没有涉及到复杂的数据结构，它仅仅需要两个栈 <span  class="math">\(S\)</span> 和 <span  class="math">\(T\)</span>。</p>
+
+<p>首先遍历所有点，选出 lowest-then-leftmost 的点 <span  class="math">\(p_{1}\)</span>，并以该点为参照，将所有其余点按照极角排序，分别为 <span  class="math">\(p_{2},p_{3},\cdots ,p_{n}\)</span>。</p>
+
+<p>两个栈初始化为（方括号代表栈底）：
+<center><span  class="math">\(S=[\ p_{1},p_{2}>\)</span></center>
+<center><span  class="math">\(T=< p_{3},p_{4},\cdots ,p_{n}\ ]\)</span></center></p>
+
+<p>扫描算法流程：当栈 <span  class="math">\(T\)</span> 非空时，如果栈 <span  class="math">\(T\)</span> 的栈顶在栈 <span  class="math">\(S\)</span> 的栈顶与次栈顶组成的有向边的左侧，则将栈 <span  class="math">\(T\)</span> 的栈顶压入栈 <span  class="math">\(S\)</span>；否则弹出栈 <span  class="math">\(S\)</span> 的栈顶元素。伪代码如下：</p>
+
+<pre><code class="language-cpp">while (!T.empty())
+    toLeft(S[1], S[0], T[0]) ? S.push(T.pop()) : S.pop();
+</code></pre>
+
+<p>有兴趣的读者可以在下图所示的点集上运行一遍算法流程，我就不赘述了。</p>
+
+<p><center><figure><img src="https://s1.ax1x.com/2018/03/13/9hMEoF.jpg" alt="graham-scan-1"></figure></center></p>
+
+<h2 id="扫描效率">扫描效率</h2>
+
+<p>这一节讨论扫描一步的效率。粗浅来看，点集中除了参照点的每个点都可能被做 <span  class="math">\(\Omega(n)\)</span> toLeft 比较，那么扫描效率就是 <span  class="math">\(O(n)\times O(n)=O(n^{2})\)</span>。但这种估计方法明显太松了，接下来用两种方法求更紧的上界。</p>
+
+<h3 id="平面图">平面图</h3>
+
+<p>先来复习一下图论中平面图的概念：</p>
 
 <blockquote>
-<p>把点集看作钉在桌子上的若干钉子，这时撑开一个橡皮筋，让它能够囊括所有钉子，松手后橡皮筋围成的多边形就是该点集的凸包</p>
+<p>在图论中，平面图是可以画在平面上并且使得不同的边可以互不交叠的图。而如果一个图无论怎样都无法画在平面上，并使得不同的边互不交叠，那么这样的图不是平面图，或者称为非平面图。</p>
 </blockquote>
 
-<p>当然这只是一个凸包在二维上的解释，但通俗易懂，如下图。</p>
+<p>而在扫描一步中，遍历的所有边都不会相交（如下图）。也就是说，这一步的搜索空间构成了一个平面图。根据欧拉定理，得知平面图中边数 <span  class="math">\(E=O(3n)\)</span>，从而说明了扫描效率为 <span  class="math">\(O(n)\)</span>。</p>
 
-<p><center><figure><img src="https://s1.ax1x.com/2018/02/27/9BGTJK.gif" alt="convex_hull_1"></figure></center></p>
+<p><center><figure><img src="https://s1.ax1x.com/2018/03/13/9hM5wT.jpg" alt="graham-scan-2"></figure></center></p>
 
-<p>那么给定一个点集 <span  class="math">\(P\)</span>，如何计算出其凸包 <span  class="math">\(CH(P)\)</span> 呢？接下来将介绍第一个计算凸包的算法 —— 极点法。</p>
+<h3 id="均摊分析">均摊分析</h3>
 
-<h1 id="极点法extreme-points">极点法（Extreme Points）</h1>
+<p>我们从另一方面看待这个问题，考虑变量 <span  class="math">\(A=|S|+2|T|\)</span>。显而易见地，每次循环中 <span  class="math">\(A\)</span> 都会减少 <span  class="math">\(1\)</span>。扫描开始时，<span  class="math">\(A=2n-2\)</span>；扫描结束时，<span  class="math">\(A\ge 3\)</span>。则循环执行了 <span  class="math">\(O(2n-5)=O(n)\)</span> 次，也即扫描效率为 <span  class="math">\(O(n)\)</span>。</p>
+
+<h2 id="简化">简化</h2>
+
+<p>仔细想想，算法中的排序一步是不需要 toLeft 作为比较器的。</p>
+
+<p>假如在点集中增加一个点作为参考点，并把它无限拉低，直到 <span  class="math">\((0,-\infty)\)</span>，则点集中其余点与参考点连成的线就是竖直的，也就是说，我们只需要对其余点的横轴坐标排序即可。</p>
+
+<p>但由于引入了一个新的点，所以也会导致求得的凸包与原点集凸包不符。幸运的是，如果我们将新凸包中与参考点有关的两条边删掉，就可以得到原凸包的上半部分，称之为上半凸包（upper hull）。</p>
+
+<p>同理，可以在点集中增加参考点 <span  class="math">\((0,+\infty)\)</span>，就可以求出下半凸包（lower hull）。将两者合并，就得到了原凸包。</p>
+
+<h1 id="分治法">分治法</h1>
 
 <hr>
 
-<h2 id="极点">极点</h2>
+<p>To be continued ...</p>
 
-<p>如下图，对于点集中的某个点，若存在一条经过该点的直线，使得点集中的其余点均处于该直线的一侧，则称该点为极点（Extreme Point）。</p>
+<h1 id="极点个数期望">极点个数期望</h1>
 
-<p><center><figure><img src="https://s1.ax1x.com/2018/02/27/9BJ9W8.png" alt="convex-hull-extreme-points"></figure></center></p>
+<hr>
 
-<p>但根据上述定义很难实现凸包的构建算法，因为对于每个点都要遍历经过它的所有直线，而这些直线是无限的。</p>
+<p>令 <span  class="math">\(P\)</span> 是平面上的点集，假设点的个数是 <span  class="math">\(n\)</span>，这一节将讨论 <span  class="math">\(CH(P)\)</span>（P的凸包）上点个数的量级。</p>
 
-<p>对于非极点来说，它必然会被点集中某三个点组成的三角形完全包围（不包括边界），而极点不满足该性质，如下图。</p>
+<p>值得注意的是，不同的采样方式会得出不同的结果。考虑在单位正方形内均匀且独立地采样（单位正方形与任意长方形是相同的，因为两者可以通过仿射变换至彼此）。</p>
 
-<p><center><figure><img src="https://s1.ax1x.com/2018/02/27/9BJwlD.png" alt="convex-hull-extreme-points-2"></figure></center></p>
+<p>取凸包的最上/下/左/右四个点，可以将凸包分成四个部分，不失一般性，我们只考虑凸包的右上角 <span  class="math">\(CH_{UR}(P)\)</span>，如下图。</p>
 
-<p><strong>所以就可以遍历点集中的所有三角形，将其覆盖的所有点设置为非极点。通过排除所有的非极点就可以得到点集中的所有极点。</strong>该算法的时间复杂度是 <span  class="math">\(O(C_{n}^{3}\cdot n)=O(n^4)\)</span> 的。</p>
+<p><center><figure><img src="https://s1.ax1x.com/2018/03/13/9hlHMR.jpg" alt="expection-complexity-1"></figure></center></p>
 
-<p>那么如何判断点是否在三角形内呢？当然，可以使用射线法或累计角度法判定，但未免有些「杀鸡用牛刀」的意味。考虑边按逆时针排列的三角形，对于这三条有向边，若某点处于它们的左侧（toLeft 判断），则该点被该三角形覆盖，如下图。</p>
+<p>在右上角区域，可以定义「极大点」：</p>
 
-<p><center><figure><img src="https://s1.ax1x.com/2018/02/27/9BJ06e.png" alt="convex-hull-in-triangle"></figure></center></p>
+<blockquote>
+<p>以点 <span  class="math">\(P\)</span> 为原点建立坐标系，如果第一象限没有点集中的其余点，则称点 <span  class="math">\(P\)</span> 为极大点。</p>
+</blockquote>
 
-<p>通过计算有向面积（<span  class="math">\(\times 2\)</span>）的符号能够判定某点是否在有向边的左侧：
-<span  class="math">\(
-2S=\begin{array}{|ccc|}
-   p.x & p.y & 1 \\
-   q.x & q.y & 1 \\
-   s.x & s.y & 1
-  \end{array}  \tag{1}
-\)</span>
-在得到点集中的所有极点后，再对它们进行排序（<span  class="math">\(O(n\log(n))\)</span>）就可以得到最终结果。</p>
+<p><center><figure><img src="https://s1.ax1x.com/2018/03/13/9h1eJg.jpg" alt="expection-complexity-2"></figure></center></p>
 
-<p>极点法虽然能够计算凸包，但还存在问题，其中最不能使人接受的是其较高的时间复杂度，之后将会介绍一些复杂度相对较低的算法。</p>
+<p>称极大点集为 <span  class="math">\(MAX(P)\)</span>，则 <span  class="math">\(|CH_{UR}(P)|\le |MAX(P)|\)</span>，接下来考虑 <span  class="math">\(|MAX(P)|\)</span> 的期望。</p>
+
+<p>从右到左，将点集中的点称之为 <span  class="math">\(\{p_{1},p_{2},\cdots ,p_{n}\}\)</span>。对于点 <span  class="math">\(p_{k}\)</span> 来讲，它是极大点当且仅当它是 <span  class="math">\(\{p_{1},
+p_{2}\cdots ,p_{k}\}\)</span> 中最高的。由于点是在单位正方形内均匀独立采样得到的，则 <span  class="math">\(p_{k}\)</span> 是极大点的概率为 <span  class="math">\(\frac{1}{k}\)</span>。故</p>
+
+<p><center><span  class="math">\(E[|MAX(P)|]=\sum_{i=1}^{n} \frac{1}{n}=O(\log(n))\)</span></center></p>
+
+<p>经过上述推导，得知当在单位正方形内均匀独立采样时，凸包上点个数的期望为 <span  class="math">\(O(\log(n))\)</span>。</p>
+
+<p>除了在单位正方形内采样以外，在其他几何形状内采样则会得到不同的结果：</p>
+
+<ul>
+<li>单位圆 —— <span  class="math">\(O(n^{\frac{1}{3}})\)</span>；</li>
+<li>三角形 —— <span  class="math">\(O(\log(n))\)</span>；</li>
+<li>凸 <span  class="math">\(k\)</span> 多边形 —— <span  class="math">\(O(k\log(n))\)</span>。</li>
+</ul>
+
+<h1 id="快速凸包quickhull">快速凸包（Quickhull）</h1>
+
+<hr>
+
+<p>首先找出点集中 leftmost-then-lowest 的点 <span  class="math">\(s\)</span>，以及 rightmost-then-highest 的点 <span  class="math">\(t\)</span>。则求解凸包就可以分为求解上半凸包和下半凸包，如下图。</p>
+
+<p><center><figure><img src="https://s1.ax1x.com/2018/03/13/9hGKQH.jpg" alt="quickhull-1"></figure></center></p>
+
+<p>由于求解上下半凸包是对称的，所以只讨论上半凸包的求解过程。</p>
+
+<p>与快速排序类似，在每次求解凸包时，都将当前点集分为三部分：</p>
+
+<ul>
+<li><span  class="math">\(P_{0}\)</span> 区域是需要被剪掉的部分，这其中的点之后无需考虑；</li>
+<li><span  class="math">\(P_{1},P_{2}\)</span> 区域为左、右子区域，原凸包可以由这两个子区域的凸包组合而成。</li>
+</ul>
+
+<p>具体来说，取距离线段 <span  class="math">\(st\)</span> 最远的点 <span  class="math">\(r\)</span> 作为哨兵。那么 <span  class="math">\(\triangle srt\)</span> 包围的区域则为 <span  class="math">\(P_{0}\)</span>，<span  class="math">\(sr\)</span> 左侧的区域是 <span  class="math">\(P_{1}\)</span>，<span  class="math">\(rt\)</span> 右侧的区域是 <span  class="math">\(P_{2}\)</span>，如下图。</p>
+
+<p><center><figure><img src="https://s1.ax1x.com/2018/03/13/9hGL1e.jpg" alt="quickhull-2"></figure></center></p>
+
+<p>当然快速凸包算法的最差情况也是 <span  class="math">\(O(n^{2})\)</span> 的，考虑这种情况：在单位圆的直径上取两个点，随后在圆心角为 <span  class="math">\(\frac{90^{\circ}}{2^{k}},k=0,1,2,\cdots\)</span> 的位置加入点，如下图。那么每次选择哨兵时都会造成左右极不均匀，从而导致最坏情况。</p>
+
+<p><center><figure><img src="https://s1.ax1x.com/2018/03/13/9h33jA.jpg" alt="quickhull-3"></figure></center></p>
               
             </div>
           </div>
@@ -336,7 +406,7 @@ ga('send', 'pageview');
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%852/" data-tooltip="计算几何 —— 凸包（2）">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -344,7 +414,7 @@ ga('send', 'pageview');
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/hello-world/" data-tooltip="Hello World">
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%852/" data-tooltip="计算几何 —— 凸包（2）">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -362,19 +432,19 @@ ga('send', 'pageview');
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://www.wangzhao.me/2018/02/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%851/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://www.wangzhao.me/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%853/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://www.wangzhao.me/2018/02/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%851/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://www.wangzhao.me/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%853/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://www.wangzhao.me/2018/02/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%851/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://www.wangzhao.me/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%853/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -422,7 +492,7 @@ ga('send', 'pageview');
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%852/" data-tooltip="计算几何 —— 凸包（2）">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -430,7 +500,7 @@ ga('send', 'pageview');
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/hello-world/" data-tooltip="Hello World">
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%852/" data-tooltip="计算几何 —— 凸包（2）">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -448,19 +518,19 @@ ga('send', 'pageview');
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://www.wangzhao.me/2018/02/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%851/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://www.wangzhao.me/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%853/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://www.wangzhao.me/2018/02/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%851/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://www.wangzhao.me/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%853/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://www.wangzhao.me/2018/02/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%851/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://www.wangzhao.me/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%853/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -490,19 +560,19 @@ ga('send', 'pageview');
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.wangzhao.me%2F2018%2F02%2F%25E8%25AE%25A1%25E7%25AE%2597%25E5%2587%25A0%25E4%25BD%2595--%25E5%2587%25B8%25E5%258C%25851%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.wangzhao.me%2F2018%2F03%2F%25E8%25AE%25A1%25E7%25AE%2597%25E5%2587%25A0%25E4%25BD%2595--%25E5%2587%25B8%25E5%258C%25853%2F">
           <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fwww.wangzhao.me%2F2018%2F02%2F%25E8%25AE%25A1%25E7%25AE%2597%25E5%2587%25A0%25E4%25BD%2595--%25E5%2587%25B8%25E5%258C%25851%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fwww.wangzhao.me%2F2018%2F03%2F%25E8%25AE%25A1%25E7%25AE%2597%25E5%2587%25A0%25E4%25BD%2595--%25E5%2587%25B8%25E5%258C%25853%2F">
           <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fwww.wangzhao.me%2F2018%2F02%2F%25E8%25AE%25A1%25E7%25AE%2597%25E5%2587%25A0%25E4%25BD%2595--%25E5%2587%25B8%25E5%258C%25851%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fwww.wangzhao.me%2F2018%2F03%2F%25E8%25AE%25A1%25E7%25AE%2597%25E5%2587%25A0%25E4%25BD%2595--%25E5%2587%25B8%25E5%258C%25853%2F">
           <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
         </a>
       </li>
@@ -684,9 +754,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'http:\/\/www.wangzhao.me\/2018\/02\/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%851\/';
+          this.page.url = 'http:\/\/www.wangzhao.me\/2018\/03\/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%853\/';
           
-            this.page.identifier = '\/2018\/02\/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%851\/'
+            this.page.identifier = '\/2018\/03\/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%853\/'
           
         };
         (function() {

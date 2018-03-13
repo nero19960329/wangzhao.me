@@ -6,10 +6,21 @@
     <description>Recent content in Notes on Wang Zhao&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 06 Mar 2018 18:07:42 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 13 Mar 2018 18:45:03 +0800</lastBuildDate>
     
 	<atom:link href="http://www.wangzhao.me/categories/notes/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>计算几何 —— 凸包（3）</title>
+      <link>http://www.wangzhao.me/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%853/</link>
+      <pubDate>Tue, 13 Mar 2018 18:45:03 +0800</pubDate>
+      
+      <guid>http://www.wangzhao.me/2018/03/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95--%E5%87%B8%E5%8C%853/</guid>
+      <description>&lt;p&gt;这次继续介绍几个凸包算法，包括 Graham scan、分治法，以及快速凸包算法。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>计算几何 —— 凸包（2）</title>
